@@ -4,7 +4,7 @@ Shader "Unlit/Blur Vertical"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _KernelSize ("Kernel Size", Range(1, 30)) = 5
-        _TextureWidth ("Texture Width", Range(1, 4096)) = 1024
+        _TextureWidth ("Texture Width", Range(1, 4096)) = 100
     }
     SubShader
     {

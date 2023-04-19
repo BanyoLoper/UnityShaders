@@ -3,6 +3,9 @@ Shader "Unlit/Blur VH"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _VerticalKernelSize ("Vertical Kernel Size", Range(1, 30)) = 5
+        _HorizontalKernelSize ("Horizontal Kernel Size", Range(1, 30)) = 5
+        _TextureWidth ("Texture Width", Range(1, 1000)) = 100
     }
     SubShader
     {
@@ -29,7 +32,7 @@ Shader "Unlit/Blur VH"
             };
 
             sampler2D _MainTex;
-            float _KernelSize;
+            float _HorizontalKernelSize;
             float _TextureWidth;
 
             v2f vert (appdata v)
@@ -45,14 +48,14 @@ Shader "Unlit/Blur VH"
                 float texelSize = 1.0 / _TextureWidth;
                 fixed4 result = fixed4(0.0, 0.0, 0.0, 0.0);
 
-                for (int j = - _KernelSize; j <= _KernelSize; j++)
+                for (int j = - _HorizontalKernelSize; j <= _HorizontalKernelSize; j++)
                 {
                     float weight = float(j);
                     fixed4 sample = tex2D(_MainTex, i.uv + fixed2(weight * texelSize, 0.0));
                     result += sample;
                 }
 
-                result /= _KernelSize * 2 + 1;
+                result /= _HorizontalKernelSize * 2 + 1;
                 return result;
             }
             ENDCG
@@ -78,7 +81,7 @@ Shader "Unlit/Blur VH"
             };
 
             sampler2D _MainTex;
-            float _KernelSize;
+            float _VerticalKernelSize;
             float _TextureWidth;
 
             v2f vert (appdata v)
@@ -94,14 +97,14 @@ Shader "Unlit/Blur VH"
                 float texelSize = 1.0 / _TextureWidth;
                 fixed4 result = fixed4(0.0, 0.0, 0.0, 0.0);
 
-                for (int j = -_KernelSize; j <= _KernelSize; j++)
+                for (int j = -_VerticalKernelSize; j <= _VerticalKernelSize; j++)
                 {
                     float weight = float(j);
                     fixed4 sample = tex2D(_MainTex, i.uv + fixed2( 0.0, weight * texelSize));
                     result += sample;
                 }
 
-                result /= _KernelSize * 2 + 1;
+                result /= _VerticalKernelSize * 2 + 1;
                 return result;
             }
             ENDCG
