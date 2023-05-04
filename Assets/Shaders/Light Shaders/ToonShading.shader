@@ -36,7 +36,7 @@ Shader "Unlit/ToonShading"
             float rampValue = tex2D(_RampTex, float2(ndotv, 0.5)).r;
             o.Albedo *= rampValue;
 
-            float outline = 1 - smoothstep(0, _OutlineWidth, ndotv);
+            float outline = 1 - smoothstep(0,   _OutlineWidth, ndotv);
             o.Emission = _OutlineColor.rgb * outline;
         }
             ENDCG

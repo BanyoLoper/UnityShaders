@@ -25,14 +25,14 @@ Shader "Custom/SpecularShader"
         };
 
         void surf (Input IN, inout SurfaceOutput o) {
-            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
-            o.Specular = 0.5; // Base specular value
             float3 lightDir = normalize(_LightPos - IN.worldPos);
             float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
             float3 halfDir = normalize(lightDir + viewDir);
             float NdotH = max(0, dot(o.Normal, halfDir));
             float spec = pow(NdotH, _Shininess);
             o.Emission = _SpecularFactor * spec * tex2D(_SpecularTex, IN.uv_MainTex).rgb;
+            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+            o.Specular = 0.5;
         }
         ENDCG
     }
